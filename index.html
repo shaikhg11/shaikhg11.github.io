@@ -1,10 +1,575 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Welcome</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aman Ullah Shaikh — Senior Staff Software Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:            #0B0E13;
+    --panel:         #12161E;
+    --panel-line:    #232A36;
+    --text:          #E7E9EC;
+    --muted:         #8B96A5;
+    --accent:        #34D6B0; /* status-good / uptime green */
+    --accent-dim:    #1D6E5C;
+    --amber:         #F0A93A; /* highlight / featured */
+    --amber-dim:     #7A5A20;
+    --red:           #E5646B; /* alert / error span */
+    --serif: 'Fraunces', serif;
+    --body:  'Source Serif 4', serif;
+    --mono:  'IBM Plex Mono', monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  ::selection{background:var(--accent-dim); color:#fff;}
+
+  :focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+  }
+
+  .wrap{max-width:1040px; margin:0 auto; padding:0 28px;}
+
+  /* ---------- top status bar ---------- */
+  .statusbar{
+    position:sticky; top:0; z-index:50;
+    background:rgba(11,14,19,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--panel-line);
+  }
+  .statusbar-inner{
+    max-width:1040px; margin:0 auto; padding:14px 28px;
+    display:flex; align-items:center; justify-content:space-between;
+    font-family:var(--mono); font-size:12.5px; color:var(--muted);
+  }
+  .statusbar-left{display:flex; align-items:center; gap:10px;}
+  .dot{
+    width:8px; height:8px; border-radius:50%; background:var(--accent);
+    box-shadow:0 0 0 3px rgba(52,214,176,0.15);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1;} 50%{opacity:0.45;}
+  }
+  .statusbar nav{display:flex; gap:22px;}
+  .statusbar nav a{text-decoration:none; color:var(--muted); transition:color .15s;}
+  .statusbar nav a:hover{color:var(--text);}
+
+  /* ---------- hero ---------- */
+  .hero{padding:96px 0 64px; border-bottom:1px solid var(--panel-line);}
+  .boot{
+    font-family:var(--mono); font-size:12.5px; color:var(--accent);
+    margin-bottom:22px; min-height:1.4em;
+  }
+  .boot::after{
+    content:'▍'; margin-left:2px; animation:blink 1s step-end infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(2.6rem, 6vw, 4.4rem);
+    line-height:1.02;
+    margin:0 0 14px;
+    letter-spacing:-0.01em;
+  }
+  .hero .role{
+    font-family:var(--mono);
+    color:var(--amber);
+    font-size:14px;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    margin:0 0 26px;
+  }
+  .hero p.lede{
+    max-width:640px; color:var(--muted); font-size:17px; margin:0 0 36px;
+  }
+
+  .hero-actions{display:flex; flex-wrap:wrap; gap:12px; margin-bottom:56px;}
+  .btn{
+    font-family:var(--mono); font-size:13px;
+    padding:11px 18px; border-radius:3px;
+    border:1px solid var(--panel-line);
+    text-decoration:none; color:var(--text);
+    transition:border-color .15s, background .15s;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn:hover{border-color:var(--accent); background:rgba(52,214,176,0.06);}
+  .btn.primary{background:var(--accent); color:#06110D; border-color:var(--accent); font-weight:600;}
+  .btn.primary:hover{background:#3fe6bf;}
+
+  .metrics{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--panel-line); border:1px solid var(--panel-line); border-radius:6px; overflow:hidden;
+  }
+  .metric{background:var(--panel); padding:20px 18px;}
+  .metric .num{font-family:var(--mono); font-size:22px; color:var(--accent); font-weight:600;}
+  .metric .label{font-family:var(--mono); font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin-top:6px;}
+
+  /* ---------- section chrome ---------- */
+  section{padding:76px 0;}
+  .section-head{display:flex; align-items:baseline; gap:14px; margin-bottom:36px;}
+  .section-tag{
+    font-family:var(--mono); font-size:11px; color:var(--muted);
+    text-transform:uppercase; letter-spacing:.08em;
+    border:1px solid var(--panel-line); padding:4px 9px; border-radius:3px;
+  }
+  h2{
+    font-family:var(--serif); font-weight:600; font-size:1.9rem; margin:0;
+  }
+  .prose{color:var(--muted); font-size:16.5px; max-width:700px;}
+  .prose strong{color:var(--text); font-weight:500;}
+
+  /* ---------- experience trace waterfall ---------- */
+  .trace{border:1px solid var(--panel-line); border-radius:6px; background:var(--panel); overflow:hidden;}
+  .trace-row{
+    display:grid; grid-template-columns:200px 1fr; gap:0;
+    border-bottom:1px solid var(--panel-line);
+  }
+  .trace-row:last-child{border-bottom:none;}
+  .trace-meta{padding:18px 18px; border-right:1px solid var(--panel-line);}
+  .trace-meta .company{font-family:var(--serif); font-size:16px; font-weight:600;}
+  .trace-meta .role{font-family:var(--mono); font-size:11.5px; color:var(--muted); margin-top:4px;}
+  .trace-meta .loc{font-family:var(--mono); font-size:11px; color:var(--muted); opacity:.7; margin-top:2px;}
+  .trace-bar-wrap{position:relative; padding:18px; display:flex; align-items:center;}
+  .trace-track{position:relative; width:100%; height:34px; background:rgba(255,255,255,0.02); border-radius:3px;}
+  .trace-span{
+    position:absolute; top:0; height:100%; border-radius:3px;
+    display:flex; align-items:center; padding:0 10px;
+    font-family:var(--mono); font-size:11px; color:#06110D; font-weight:600;
+    cursor:default;
+  }
+  .trace-span small{margin-left:6px; font-weight:400; opacity:.75;}
+  .trace-span.current{background:var(--accent);}
+  .trace-span.past{background:var(--amber);}
+  .trace-span.early{background:#5B6472; color:var(--text);}
+  .trace-detail{
+    grid-column:1 / -1; padding:0 18px 18px; color:var(--muted); font-size:14.5px;
+    display:none;
+  }
+  .trace-row.open .trace-detail{display:block;}
+  .trace-row .trace-bar-wrap{cursor:pointer;}
+  .trace-hint{font-family:var(--mono); font-size:10.5px; color:var(--muted); opacity:.55; margin-left:12px; white-space:nowrap;}
+
+  /* ---------- skills ---------- */
+  .skill-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1px; background:var(--panel-line); border:1px solid var(--panel-line); border-radius:6px; overflow:hidden;}
+  .skill-cat{background:var(--panel); padding:22px;}
+  .skill-cat h3{
+    font-family:var(--mono); font-size:11.5px; color:var(--accent);
+    text-transform:uppercase; letter-spacing:.06em; margin:0 0 14px;
+  }
+  .chip-row{display:flex; flex-wrap:wrap; gap:7px;}
+  .chip{
+    font-family:var(--mono); font-size:12px; color:var(--text);
+    border:1px solid var(--panel-line); border-radius:3px; padding:5px 9px;
+    background:rgba(255,255,255,0.015);
+  }
+
+  /* ---------- AI highlight panel ---------- */
+  .ai-panel{
+    border:1px solid var(--amber-dim); border-radius:6px; background:linear-gradient(180deg, rgba(240,169,58,0.06), rgba(240,169,58,0.015));
+    padding:32px;
+  }
+  .ai-panel .section-tag{border-color:var(--amber-dim); color:var(--amber);}
+  .ai-panel .prose{max-width:100%;}
+  .ai-lead-title{font-family:var(--serif); font-size:17px; font-weight:600; margin:26px 0 6px; color:var(--amber);}
+  .ai-skills{display:flex; flex-wrap:wrap; gap:8px; margin-top:18px;}
+  .ai-skills .chip{border-color:var(--amber-dim);}
+
+  /* ---------- projects ---------- */
+  .proj-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px;}
+  .proj-card{
+    border:1px solid var(--panel-line); border-radius:6px; padding:22px; background:var(--panel);
+    transition:border-color .15s, transform .15s;
+  }
+  .proj-card:hover{border-color:var(--accent); transform:translateY(-2px);}
+  .proj-card .eyebrow{font-family:var(--mono); font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em;}
+  .proj-card h3{font-family:var(--serif); font-size:19px; margin:8px 0 10px;}
+  .proj-card p{color:var(--muted); font-size:14.5px; margin:0 0 14px;}
+  .proj-card .chip-row{gap:6px;}
+  .proj-card .chip{font-size:11px; padding:3px 7px;}
+
+  /* ---------- leadership tags ---------- */
+  .lead-tags{display:flex; flex-wrap:wrap; gap:10px;}
+  .lead-tag{
+    font-family:var(--mono); font-size:13px; padding:9px 14px; border-radius:3px;
+    border:1px solid var(--panel-line); background:var(--panel);
+    display:flex; align-items:center; gap:8px;
+  }
+  .lead-tag::before{content:'✓'; color:var(--accent);}
+
+  /* ---------- certifications ---------- */
+  .cert-row{display:flex; flex-wrap:wrap; gap:14px;}
+  .cert{
+    border:1px solid var(--panel-line); border-radius:6px; padding:16px 20px; background:var(--panel);
+    font-family:var(--mono); font-size:13px; min-width:150px;
+  }
+  .cert .cname{font-family:var(--serif); font-size:15px; display:block; margin-bottom:4px;}
+  .cert .cstat{color:var(--muted); font-size:11px;}
+
+  /* ---------- testimonials ---------- */
+  .testi-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px;}
+  .testi{
+    border-left:2px solid var(--accent); padding:4px 0 4px 20px; color:var(--muted); font-size:15px;
+  }
+  .testi .who{font-family:var(--mono); font-size:11.5px; color:var(--text); margin-top:10px; display:block;}
+
+  /* ---------- contact / footer ---------- */
+  .contact{
+    border:1px solid var(--panel-line); border-radius:6px; background:var(--panel);
+    padding:40px; text-align:center;
+  }
+  .contact h2{margin-bottom:10px;}
+  .contact p{color:var(--muted); margin-bottom:26px;}
+  .contact-links{display:flex; justify-content:center; flex-wrap:wrap; gap:12px;}
+
+  footer{padding:36px 0; text-align:center; font-family:var(--mono); font-size:11.5px; color:var(--muted); border-top:1px solid var(--panel-line);}
+
+  @media (max-width:640px){
+    .metrics{grid-template-columns:repeat(2,1fr);}
+    .trace-row{grid-template-columns:1fr;}
+    .trace-meta{border-right:none; border-bottom:1px solid var(--panel-line);}
+    .statusbar nav{display:none;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important; transition:none !important;}
+    html{scroll-behavior:auto;}
+  }
+</style>
 </head>
 <body>
-    <h1>Hello, I'm Aman!</h1>
-    <p>My GitHub Pages website.</p>
+
+<div class="statusbar">
+  <div class="statusbar-inner">
+    <div class="statusbar-left"><span class="dot"></span> aman-shaikh · status: open to Staff / EM roles</div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#ai">AI</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero wrap">
+  <div class="boot" id="boot"></div>
+  <h1>Aman Ullah Shaikh</h1>
+  <p class="role">Senior Staff Engineer · Payment Platform Architect · AI Champions Lead</p>
+  <p class="lede">Building scalable, fault-tolerant payment platforms for 18+ years, and now driving how engineering teams adopt AI — from prompt engineering to agentic workflows — without losing sight of quality, security, and governance.</p>
+
+  <div class="hero-actions">
+    <a class="btn primary" href="#contact">Get in touch</a>
+    <a class="btn" href="https://www.linkedin.com/in/amanshaikh/" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a class="btn" href="#" target="_blank" rel="noopener">GitHub ↗</a>
+    <a class="btn" href="#" download>Download résumé</a>
+  </div>
+
+  <div class="metrics">
+    <div class="metric"><div class="num">18+</div><div class="label">Years experience</div></div>
+    <div class="metric"><div class="num">300K+</div><div class="label">Transactions / mo</div></div>
+    <div class="metric"><div class="num">100+</div><div class="label">Engineers mentored</div></div>
+    <div class="metric"><div class="num">10+</div><div class="label">Enterprise projects</div></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="about">
+    <div class="section-head"><span class="section-tag">01 · About</span><h2>Profile</h2></div>
+    <p class="prose">
+      A Senior Staff Software Engineer with over <strong>18 years</strong> of experience designing enterprise-grade payment platforms, cloud-native applications, distributed systems, and AI-powered solutions. Career spans engineering leadership, legacy platform modernization, and scalable payment ecosystem architecture — most recently spearheading AI adoption across engineering organizations. Based between Qatar and Houston, Texas, with a consistent throughline: build software that scales, mentor the engineers who build it, and use AI to help them move faster without cutting corners.
+    </p>
+  </section>
+
+  <section id="experience">
+    <div class="section-head"><span class="section-tag">02 · Trace</span><h2>Experience</h2></div>
+    <p class="prose" style="margin-bottom:24px;">Read like a trace waterfall — each span is a chapter, sized by tenure. Click a row to expand.</p>
+    <div class="trace" id="trace">
+
+      <div class="trace-row">
+        <div class="trace-meta">
+          <span class="company">Perseus Group</span>
+          <div class="role">Sr. Staff Eng. / Tech Lead — PerseusPay</div>
+          <div class="loc">Constellation Software · Houston, TX</div>
+        </div>
+        <div class="trace-bar-wrap">
+          <div class="trace-track">
+            <div class="trace-span current" style="left:60%; width:40%;">2025 — present <small>current</small></div>
+          </div>
+          <span class="trace-hint">click to expand ›</span>
+        </div>
+        <div class="trace-detail">
+          Technical lead on PerseusPay, a B2B payment processing platform for agricultural and marine equipment dealers, integrating with Adyen for terminal and card-not-present payments on .NET / Azure / SQL Server. Chairs the org's AI Champions working group, runs production incident investigations, and drives performance and reliability work across the platform.
+        </div>
+      </div>
+
+      <div class="trace-row">
+        <div class="trace-meta">
+          <span class="company">beIN MEDIA GROUP</span>
+          <div class="role">Technical Lead</div>
+          <div class="loc">Doha, Qatar</div>
+        </div>
+        <div class="trace-bar-wrap">
+          <div class="trace-track">
+            <div class="trace-span past" style="left:32%; width:26%;">~3.5y</div>
+          </div>
+          <span class="trace-hint">click to expand ›</span>
+        </div>
+        <div class="trace-detail">
+          Technical leadership across broadcast and media platform engineering, including large-scale event scaling work (Europe Cup) and cross-functional delivery under tight live-event timelines.
+        </div>
+      </div>
+
+      <div class="trace-row">
+        <div class="trace-meta">
+          <span class="company">Market Leader</span>
+          <div class="role">Senior Software Engineer</div>
+          <div class="loc">Remote</div>
+        </div>
+        <div class="trace-bar-wrap">
+          <div class="trace-track">
+            <div class="trace-span past" style="left:16%; width:15%;">~2y</div>
+          </div>
+          <span class="trace-hint">click to expand ›</span>
+        </div>
+        <div class="trace-detail">
+          Led development of an automation testing framework from inception through post-release, while mentoring engineers on core design patterns — including a lasting focus on the singleton pattern and clean design fundamentals.
+        </div>
+      </div>
+
+      <div class="trace-row">
+        <div class="trace-meta">
+          <span class="company">SigmaFlow</span>
+          <div class="role">Software Engineer</div>
+          <div class="loc">—</div>
+        </div>
+        <div class="trace-bar-wrap">
+          <div class="trace-track">
+            <div class="trace-span past" style="left:6%; width:9%;">~1.3y</div>
+          </div>
+          <span class="trace-hint">click to expand ›</span>
+        </div>
+        <div class="trace-detail">
+          Delivery-focused engineering work recognized by peers for reliability and technical depth.
+        </div>
+      </div>
+
+      <div class="trace-row">
+        <div class="trace-meta">
+          <span class="company">Early career</span>
+          <div class="role">Software Engineer</div>
+          <div class="loc">—</div>
+        </div>
+        <div class="trace-bar-wrap">
+          <div class="trace-track">
+            <div class="trace-span early" style="left:0%; width:5.5%;">start</div>
+          </div>
+          <span class="trace-hint">click to expand ›</span>
+        </div>
+        <div class="trace-detail">
+          Cut teeth building a Silverlight rig-scheduling application — testing, debugging, and correcting errors under Agile delivery via TFS, then re-patterning the codebase into a cleaner solution.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="ai">
+    <div class="section-head"><span class="section-tag">03 · Featured</span><h2>AI Engineering &amp; Enablement</h2></div>
+    <div class="ai-panel">
+      <p class="prose">
+        Passionate about applying AI to real engineering problems and team productivity — integrating large language models, AI-assisted development workflows, prompt engineering, retrieval-augmented generation, and AI-powered automation into day-to-day software practice. Recently led development of a comprehensive <strong>AI Engineering Guide</strong> to train engineering teams on responsible AI adoption, effective prompting, agentic workflows, and practical tools. A strong advocate for an AI-first engineering culture that still holds the line on security, governance, and quality.
+      </p>
+      <div class="ai-lead-title">Leadership highlight — AI Champions Working Group Lead</div>
+      <p class="prose">
+        Chairs the organization's AI adoption initiative. Authored the AI Engineering Guide and delivered hands-on training so developers can lean on AI for architecture, debugging, documentation, and testing — while keeping usage responsible and auditable.
+      </p>
+      <div class="ai-skills">
+        <span class="chip">AI-First Development</span>
+        <span class="chip">LLMs (OpenAI, Azure OpenAI)</span>
+        <span class="chip">Prompt Engineering</span>
+        <span class="chip">Agentic Workflows</span>
+        <span class="chip">RAG</span>
+        <span class="chip">AI Agents & Automation</span>
+        <span class="chip">GitHub Copilot</span>
+        <span class="chip">AI Governance</span>
+        <span class="chip">AI Training & Enablement</span>
+        <span class="chip">Technical Mentorship</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-head"><span class="section-tag">04 · Stack</span><h2>Technical Expertise</h2></div>
+    <div class="skill-grid">
+      <div class="skill-cat">
+        <h3>Backend</h3>
+        <div class="chip-row">
+          <span class="chip">C#</span><span class="chip">.NET</span><span class="chip">.NET Core</span>
+          <span class="chip">ASP.NET MVC</span><span class="chip">Web API</span><span class="chip">Node.js</span><span class="chip">Python</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <h3>Cloud &amp; Infra</h3>
+        <div class="chip-row">
+          <span class="chip">Azure</span><span class="chip">Azure Functions</span><span class="chip">Service Bus</span>
+          <span class="chip">Terraform</span><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">Databricks</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <h3>Frontend</h3>
+        <div class="chip-row">
+          <span class="chip">Vue.js</span><span class="chip">React</span><span class="chip">Angular</span>
+          <span class="chip">TypeScript</span><span class="chip">JavaScript</span><span class="chip">HTML5 / CSS</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <h3>Data</h3>
+        <div class="chip-row">
+          <span class="chip">SQL Server</span><span class="chip">PostgreSQL</span><span class="chip">MySQL</span><span class="chip">SQLite</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <h3>Architecture</h3>
+        <div class="chip-row">
+          <span class="chip">Microservices</span><span class="chip">Event-Driven</span><span class="chip">CQRS</span>
+          <span class="chip">DDD</span><span class="chip">Clean Architecture</span><span class="chip">SOLID</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <h3>Payments</h3>
+        <div class="chip-row">
+          <span class="chip">Adyen</span><span class="chip">ACH</span><span class="chip">Apple Pay</span>
+          <span class="chip">Google Pay</span><span class="chip">Retry / Circuit Breaker</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="section-head"><span class="section-tag">05 · Projects</span><h2>Featured Work</h2></div>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <span class="eyebrow">Payments</span>
+        <h3>Unified Payment Platform</h3>
+        <p>A payment gateway unifying card, ACH, Apple Pay, and Google Pay flows with built-in retry and circuit-breaker resilience.</p>
+        <div class="chip-row"><span class="chip">Adyen</span><span class="chip">Resilience</span><span class="chip">.NET</span></div>
+      </div>
+      <div class="proj-card">
+        <span class="eyebrow">Enablement</span>
+        <h3>AI Engineering Guide</h3>
+        <p>A learning portal and guide for engineering teams covering prompting, agentic workflows, and responsible AI adoption.</p>
+        <div class="chip-row"><span class="chip">LLMs</span><span class="chip">Training</span><span class="chip">Governance</span></div>
+      </div>
+      <div class="proj-card">
+        <span class="eyebrow">AI Agent</span>
+        <h3>Payment Assistant</h3>
+        <p>An AI agent that helps triage and explain payment failures and transaction states in plain language.</p>
+        <div class="chip-row"><span class="chip">Agents</span><span class="chip">RAG</span></div>
+      </div>
+      <div class="proj-card">
+        <span class="eyebrow">AI Agent</span>
+        <h3>MLS Property Analyzer</h3>
+        <p>An AI-powered real estate assistant that reads listing and contract data to surface obligations and red flags.</p>
+        <div class="chip-row"><span class="chip">LLMs</span><span class="chip">Document AI</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="leadership">
+    <div class="section-head"><span class="section-tag">06 · Leadership</span><h2>Beyond the Code</h2></div>
+    <div class="lead-tags">
+      <span class="lead-tag">Technical Lead</span>
+      <span class="lead-tag">Scrum Master</span>
+      <span class="lead-tag">AI Champions Lead</span>
+      <span class="lead-tag">Engineering Mentor</span>
+      <span class="lead-tag">Architecture Reviews</span>
+      <span class="lead-tag">Interview Panel</span>
+    </div>
+  </section>
+
+  <section id="certs">
+    <div class="section-head"><span class="section-tag">07 · Certified</span><h2>Certifications</h2></div>
+    <div class="cert-row">
+      <div class="cert"><span class="cname">Azure</span><span class="cstat">Certified</span></div>
+      <div class="cert"><span class="cname">Databricks</span><span class="cstat">Certified</span></div>
+      <div class="cert"><span class="cname">Tableau</span><span class="cstat">Certified</span></div>
+    </div>
+  </section>
+
+  <section id="testimonials">
+    <div class="section-head"><span class="section-tag">08 · Signal</span><h2>What colleagues say</h2></div>
+    <div class="testi-grid">
+      <blockquote class="testi">
+        Known on past teams as one of the most dependable and technically sharp engineers around — the kind of person people count on to actually get things working.
+        <span class="who">— Former teammate</span>
+      </blockquote>
+      <blockquote class="testi">
+        Credited with steady technical leadership on an automation framework build, plus a knack for teaching core design patterns clearly enough that they stuck.
+        <span class="who">— Former colleague</span>
+      </blockquote>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact">
+      <h2>Let's talk</h2>
+      <p>Open to Staff Engineer, Principal Engineer, and Engineering Manager conversations.</p>
+      <div class="contact-links">
+        <a class="btn primary" href="https://www.linkedin.com/in/amanshaikh/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="btn" href="#" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="btn" href="mailto:hello@example.com">Email</a>
+        <a class="btn" href="#" download>Résumé ↓</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>aman-shaikh.dev · built with .NET-grade attention to detail</footer>
+
+<script>
+  // boot sequence typing effect
+  const bootEl = document.getElementById('boot');
+  const bootText = '> initializing engineer.profile — loading 18 years of uptime...';
+  let i = 0;
+  function typeBoot(){
+    if(i <= bootText.length){
+      bootEl.textContent = bootText.slice(0, i);
+      i++;
+      setTimeout(typeBoot, 14);
+    }
+  }
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    bootEl.textContent = bootText;
+  } else {
+    typeBoot();
+  }
+
+  // trace row expand/collapse
+  document.querySelectorAll('.trace-row').forEach(row => {
+    row.querySelector('.trace-bar-wrap').addEventListener('click', () => {
+      row.classList.toggle('open');
+    });
+  });
+</script>
+
 </body>
 </html>
